@@ -1,0 +1,164 @@
+unit Calculadora;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Buttons, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    painel: TPanel;
+    bt1: TSpeedButton;
+    bt2: TSpeedButton;
+    bt3: TSpeedButton;
+    bt4: TSpeedButton;
+    bt6: TSpeedButton;
+    bt5: TSpeedButton;
+    bt7: TSpeedButton;
+    bt8: TSpeedButton;
+    bt9: TSpeedButton;
+    bt0: TSpeedButton;
+    btVirgula: TSpeedButton;
+    btDiv: TSpeedButton;
+    btMult: TSpeedButton;
+    btSub: TSpeedButton;
+    btSoma: TSpeedButton;
+    btIgual: TSpeedButton;
+    btLimpar: TSpeedButton;
+    Visor: TEdit;
+
+    procedure btClick(Sender: TObject);
+    procedure btLimparClick(Sender: TObject);
+    procedure btIgualClick(Sender: TObject);
+    procedure btVirgulaClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure OperadoresClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+
+ private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  valor1: real;
+  valor2: real;
+  funcao: integer;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+    if Key = VK_NUMPAD1 then
+    bt1.Click;
+  if Key = VK_NUMPAD2 then
+    bt2.click;
+  if Key = VK_NUMPAD3 then
+    bt3.click;
+  if Key = VK_NUMPAD4 then
+    bt4.click;
+  if Key = VK_NUMPAD5 then
+    bt5.click;
+  if Key = VK_NUMPAD6 then
+    bt6.click;
+  if Key = VK_NUMPAD7 then
+    bt7.click;
+  if Key = VK_NUMPAD8 then
+    bt8.click;
+  if Key = VK_NUMPAD9 then
+    bt9.click;
+  if Key = VK_NUMPAD0 then
+    bt0.click;
+  if Key = VK_ADD then
+    btSoma.click;
+  if Key = VK_SUBTRACT then
+    btSub.click;
+  if Key = VK_MULTIPLY then
+    btMult.click;
+  if Key = VK_DIVIDE then
+    btDiv.click;
+  if Key = VK_RETURN then
+    btIgual.click;
+  if Key = VK_DECIMAL then
+    btVirgula.click;
+  if Key = VK_BACK then
+    btLimpar.click;
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+begin
+  Valor1 := 0;
+  Valor2 := 0;
+end;
+
+procedure TForm1.btIgualClick(Sender: TObject);
+var
+  Result: real;
+begin
+    if visor.Text<>'' then
+  begin
+    valor2:=StrToFloat(visor.Text);
+  case (funcao) of
+  1:
+  begin
+    Result:=valor1+valor2;
+    visor.text:=FloatToStr(Result);
+  end;
+  2:
+  begin
+    Result:=valor1-valor2;
+    visor.text:=FloatToStr(Result);
+  end;
+  3:
+  begin
+    Result:=valor1*valor2;
+    visor.text:=FloatToStr(Result);
+  end;
+  4:
+  begin
+    if(valor2<>0)then
+      begin
+        Result:=valor1/valor2;
+        visor.text:=FloatToStr(Result);
+      end
+    else
+      begin
+        ShowMessage('ERRO');
+        visor.Text:='';
+      end
+    end
+  end;
+  end;
+end;
+
+procedure TForm1.btLimparClick(Sender: TObject);
+begin
+    visor.Text :='';
+end;
+
+procedure TForm1.OperadoresClick(Sender: TObject);
+begin
+  if visor.Text<>'' then
+    valor1 := StrToFloat(visor.Text);
+    visor.Text := '';
+  funcao := tSpeedButton(sender).tag;
+end;
+
+procedure TForm1.btClick(Sender: TObject);
+begin
+  visor.Text := visor.Text + (Sender as TSpeedButton).Caption
+end;
+
+procedure TForm1.btVirgulaClick(Sender: TObject);
+begin
+   if (visor.Text <> '') and (Pos(',',visor.Text)<1) then
+    visor.Text := visor.Text + ',';
+end;
+
+end.
